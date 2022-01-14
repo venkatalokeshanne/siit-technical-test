@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react'
 import Users from './users';
-import getData from '../api/APIsiit';
+import  { getUsers } from '../api/APIsiit';
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('../api/APIsiit')
@@ -16,7 +16,7 @@ const user = [{
 
 describe("Users", () => {
     it("Loades users on mount", async () => {
-        getData.mockResolvedValueOnce(user)
+        getUsers.mockResolvedValueOnce(user)
         await act(async () => render(<Users />));
         await waitFor(() => expect(screen.getByText("Chalom Malka")).toBeInTheDocument());
     })

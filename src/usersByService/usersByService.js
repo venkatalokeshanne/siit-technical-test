@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import getData, { getServices, getUsers } from "../api/APIsiit";
+import { getServices, getUsers } from "../api/APIsiit";
 
 function UsersByService() {
   const [serviceDetails, setServiceDetails] = useState([]);
@@ -11,25 +11,23 @@ function UsersByService() {
 
   useEffect(async () => {
     const serviceData = await getServices();
-    console.log("serviceData", serviceData);
     if (serviceData.length > 0) {
       setServiceDetails(serviceData);
-      setIsLoading(false);
     }
 
-    const UserData = await getUsers();
-    if (UserData.length > 0) {
-      setUserDetails(UserData);
-      setIsLoading(false);
+    const userData = await getUsers();
+    if (userData.length > 0) {
+      setUserDetails(userData);
     }
+    setIsLoading(false);
   }, []);
 
   /* Change on click services */
   function onclickService(id) {
     setIsUserDataLoading(true);
     let checkedServices = selectedServices;
+    // Add and remove selected services from array
     if (checkedServices.includes(id)) {
-      // Add and remove selected services from array
       checkedServices = checkedServices.filter((serviceId) => {
         return serviceId !== id;
       });
@@ -40,26 +38,21 @@ function UsersByService() {
     getUsersByService(checkedServices); // Get users based on selected services
   }
 
-  /* Get users from selected services */
+  /* Get users for multi selected services */
   function getUsersByService(checkedServices) {
     let usersByServices = [];
     let userIds = [];
     // Better to filter from users instead of fetching data from endpoint
     checkedServices.forEach((element) => {
       userDetails.filter((user) => {
-        if (user.service_ids.includes(element)) {
-          if (!userIds.includes(user.id)) {
-            let serviceNames = getServiceName(user.service_ids);
-            console.log("serviceNames", serviceNames);
-            user.serviceNames = serviceNames;
-            usersByServices.push(user);
-            userIds.push(user.id);
-          }
+        if (user.service_ids.includes(element) && !userIds.includes(user.id)) {
+          user.serviceNames = getServiceName(user.service_ids);
+          usersByServices.push(user);
+          userIds.push(user.id);
         }
       });
     });
     setSelectedUsers(usersByServices);
-    console.log("usersByServices", usersByServices);
     setIsUserDataLoading(false);
   }
 
@@ -82,39 +75,42 @@ function UsersByService() {
       <div>
         {props.userServices.map((name) => (
           <p key={name} className="display-inlineBlock pr-10">
-            {" "}
-            {name}{" "}
+            {name}
           </p>
         ))}
       </div>
     );
   }
 
+  function MessageIndicator(props) {
+    return <p className="color-red">{props.message}</p>;
+  }
+
   return (
-    <div className="text-center mt-8 font-size-20">
-      <h1 className="color-y">Get users based on sevice</h1>
+    <div className="text-center mt-8">
+      <h1 className="color-y">Get users based on service</h1>
+      <p>Select the service to see the current active users of the service</p>
       {!isLoading && (
         <div>
-          {serviceDetails.map((service, index) => (
+          {serviceDetails.map((service) => (
             <>
-              <input
+              <input className="mr-1"
                 type="checkbox"
                 name={service.name}
                 value={service.id}
                 onClick={() => onclickService(service.id)}
               ></input>
-              <label className='pr-10'>{service.name}</label>
+              <label className="pr-10">{service.name}</label>
             </>
           ))}
         </div>
       )}
-      {isLoading && <p>Loading all services...</p>}
-      {selectedServices.length === 0 && (
-        <p className="color-red">Select services to load employee</p>
-      )}
-      {selectedUser.length === 0 && selectedServices.length > 0 && (
-        <p className="color-red">No services are available</p>
-      )}
+
+      {isLoading && <MessageIndicator message="Loading all services..." />}
+      {selectedServices.length === 0 && <MessageIndicator message="Select services to load users..." />}
+      {selectedUser.length === 0 && selectedServices.length > 0 && <MessageIndicator message="No services are available" />}
+      {isUserDataLoading && <MessageIndicator message="Loading selected employee details..." />}
+
       {!isUserDataLoading && selectedUser.length > 0 && (
         <table className="margin-auto mt-5">
           <thead className="color-blue">
@@ -141,7 +137,6 @@ function UsersByService() {
           </tbody>
         </table>
       )}
-      {isUserDataLoading && <p>Loading selected employee details...</p>}
     </div>
   );
 }

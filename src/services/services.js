@@ -20,6 +20,8 @@ function Services() {
     return (
         <div className="text-center mt-8">
             <h1 className='color-y'>Siit Services</h1>
+            <p>Below are the services provided at SIIT</p>
+            <p>Click on the logo of the comapany to redirect to Company website</p>
             {!isLoading &&
                 <table className='margin-auto'>
                     <thead className='service'>

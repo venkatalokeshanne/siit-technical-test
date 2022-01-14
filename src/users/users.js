@@ -5,20 +5,21 @@ import getData, { getUsers } from "../api/APIsiit";
 
 function Users() {
     const [userDetails, setUserDetails] = useState([])
-    const [loading, setLoading] = useState(true)
+    const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
         const data = await getUsers()
         if (data.length > 0) {
             setUserDetails(data)
-            setLoading(false)
+            setIsLoading(false)
         }
     }, [])
 
     return (
         <div className="text-center">
             <h1 className='color-y'>Siit Employees</h1>
-            {!loading &&
+            <p>Below are the details of employees at SIIT</p>
+            {!isLoading &&
                 <table className='margin-auto'>
                     <thead>
                         <tr>
@@ -37,7 +38,7 @@ function Users() {
                         )}
                     </tbody>
                 </table>
-            } {loading && <p>Loading employee details...</p>}
+            } {isLoading && <p>Loading employee details...</p>}
         </div>
     )
 }

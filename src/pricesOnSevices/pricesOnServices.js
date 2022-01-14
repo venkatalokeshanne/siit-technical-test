@@ -1,58 +1,81 @@
 import React, { useState, useEffect } from "react";
-import getData, { getServices, getUsers } from "../api/APIsiit";
+import { getServices, getUsers } from "../api/APIsiit";
 
 function PriceOnService() {
   const [isLoading, setIsLoading] = useState(true);
   const [servicesPrice, setServicesPrice] = useState();
+  const [sortType, setSortType] = useState('desc')
 
   useEffect(async () => {
     const serviceData = await getServices();
-    console.log("serviceData", serviceData);
     const UserData = await getUsers();
-    getPriceOnService(serviceData,UserData);
+    getPriceOnService(serviceData, UserData);
   }, []);
 
   /* Get Montly prices from services */
-  function getPriceOnService(serviceData,UserData) {
+  function getPriceOnService(serviceData, userData) {
     serviceData.forEach((service) => {
-        let numberOfUsers = 0;
-        let montly = 0
-        UserData.forEach((user) => {
-        if (user.service_ids.includes(service.id)) {
-          numberOfUsers += 1;
-        }
+      //Filter active used for the service
+      let filterActiveUsers = userData.filter((user) => {
+        if (user.service_ids.includes(service.id)) {return user;}
       });
-        montly = service.price.flat_cost + service.price.cost_per_user * (numberOfUsers - service.price.nb_users_included)
-        service.numberOfUsers = numberOfUsers;
-      service.monthly = montly
+      // Calculate Monthly price based on gived expression
+      let monthlyPrice =
+        service.price.flat_cost +
+        service.price.cost_per_user *
+          (filterActiveUsers.length - service.price.nb_users_included);
+
+      service.numberOfActiveUsers = filterActiveUsers.length;
+      service.monthlyPrice = monthlyPrice;
     });
-    setServicesPrice(serviceData)
-    setIsLoading(false)
+    setServicesPrice(serviceData);
+    setIsLoading(false);
+  }
+
+  function sortAsc() {
+    servicesPrice.sort((a,b) => a.monthlyPrice - b.monthlyPrice)
+    setServicesPrice(servicesPrice);
+  }
+
+  function sortDesc(){
+    servicesPrice.sort((a,b) => b.monthlyPrice - a.monthlyPrice)
+    setServicesPrice(servicesPrice);
+  }
+
+  function sortBasedOnPrice() {
+    if(sortType === 'desc') {
+      sortAsc()
+      setSortType('asc')
+    } else {
+      sortDesc()
+      setSortType('desc')
+    }
   }
 
   return (
-    <div className="text-center mt-8">
+    <div className="text-center mt-5">
       <h1 className="color-y">Price details of the service</h1>
-
+      <p>Below is the monthly cost of service sorted based on price</p>
+      <p>Click on "Monthly Price" to sort ASC and DESC</p>
       {!isLoading && servicesPrice.length > 0 && (
         <table className="margin-auto mt-5">
-          <thead className='color-violet'>
+          <thead className="color-violet">
             <tr>
-              <td>Avatar</td>
+              <td>Logo</td>
               <td>Service Name</td>
               <td>Number of Active Users</td>
-              <td>Monthly</td>
+              <td className="cursor-pointer" onClick={() => sortBasedOnPrice(sortType)}>Monthly Price</td>
             </tr>
           </thead>
           <tbody>
             {servicesPrice.map((service) => (
               <tr key={service.id}>
                 <td>
-                  <img className="avatar" src={service.logo_url}></img>
+                  <a target='_blank' title={service.name}><img className="avatar" src={service.logo_url}></img></a>
                 </td>
                 <td>{service.name}</td>
-                <td>{service.numberOfUsers}</td>
-                <td>{service.monthly}</td>
+                <td>{service.numberOfActiveUsers}</td>
+                <td>{service.monthlyPrice}</td>
               </tr>
             ))}
           </tbody>

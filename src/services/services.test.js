@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen, waitFor, act } from '@testing-library/react'
-import getData from '../api/APIsiit';
+import { getServices } from '../api/APIsiit';
 import '@testing-library/jest-dom/extend-expect';
 import Services from './services';
 
@@ -20,7 +20,7 @@ const service = [{
 
 describe("Fetch services from the API", () => {
     it("Loads Services on mount", async () => {
-        getData.mockResolvedValueOnce(service)
+        getServices.mockResolvedValueOnce(service)
         await act(async () => render(<Services />));
         await waitFor(() => expect(screen.getByText("Google")).toBeInTheDocument());
     })
