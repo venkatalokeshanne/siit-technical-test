@@ -42,7 +42,7 @@ function Services() {
                         )}
                     </tbody>
                 </table>
-            } {isLoading && <p>Loading employee details...</p>}
+            } {isLoading && <p>Loading service details...</p>}
         </div>
     )
 }

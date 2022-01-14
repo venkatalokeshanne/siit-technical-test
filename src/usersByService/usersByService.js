@@ -91,7 +91,7 @@ function UsersByService() {
   }
 
   return (
-    <div className="text-center mt-8">
+    <div className="text-center mt-8 font-size-20">
       <h1 className="color-y">Get users based on sevice</h1>
       {!isLoading && (
         <div>
@@ -103,7 +103,7 @@ function UsersByService() {
                 value={service.id}
                 onClick={() => onclickService(service.id)}
               ></input>
-              <label>{service.name}</label>
+              <label className='pr-10'>{service.name}</label>
             </>
           ))}
         </div>
@@ -117,7 +117,7 @@ function UsersByService() {
       )}
       {!isUserDataLoading && selectedUser.length > 0 && (
         <table className="margin-auto mt-5">
-          <thead>
+          <thead className="color-blue">
             <tr>
               <td>Avatar</td>
               <td>Employee Name</td>

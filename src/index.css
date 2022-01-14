@@ -32,6 +32,13 @@
     color: red;
 }
 
+.color-blue {
+    background-color: blue;
+}
+
+.color-violet {
+    background-color: blueviolet;
+}
 /* Table */
 
 table {
