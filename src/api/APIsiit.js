@@ -1,11 +1,17 @@
 const BASE_URL = window.location;
 
-export default async function getData(endpoint) {
-    const responseData = await fetch(BASE_URL + endpoint)
-        .then(response => response.json())
-        .then((data) => {
-            return data;
-        });
-        console.log(responseData)
-    return responseData;
-}        
+async function getData(endpoint) {
+  const responseData = await fetch(BASE_URL + endpoint)
+    .then((response) => response.json())
+    .then((data) => { return data; })
+    .catch((error) => alert(error));
+  return responseData;
+}
+
+export function getUsers(){
+    return getData('users.json')
+}
+
+export function getServices(){
+    return getData('services.json')
+}

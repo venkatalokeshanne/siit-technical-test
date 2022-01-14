@@ -10,14 +10,26 @@
     margin: auto;
 }
 
+.mt-5 {
+    margin-top: 5rem;
+}
+
 .mt-8 {
     margin-top: 8rem;
+}
+
+.pr-10 {
+    padding-right: 10px;
 }
 
 /* Colors */
 
 .color-y {
     color: #8E4DEB
+}
+
+.color-red {
+    color: red;
 }
 
 /* Table */
@@ -49,4 +61,8 @@ thead {
 
 .text-center {
     text-align: center;
+}
+
+.display-inlineBlock {
+    display: inline-block;
 }

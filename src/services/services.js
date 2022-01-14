@@ -1,6 +1,6 @@
 import './services.css'
 import React, { useState, useEffect } from "react";
-import getData from "../api/APIsiit";
+import { getServices } from "../api/APIsiit";
 
 
 function Services() {
@@ -8,13 +8,14 @@ function Services() {
     const [isLoading, setIsLoading] = useState(true)
 
     useEffect(async () => {
-        const data = await getData('services.json')
-            .catch(error => alert(error));
-        if (data.length > 0) {
-            setServiceDetails(data)
+        const serviceData = await getServices()
+        if (serviceData.length > 0) {
+            setServiceDetails(serviceData)
             setIsLoading(false)
         }
     }, [])
+
+
 
     return (
         <div className="text-center mt-8">

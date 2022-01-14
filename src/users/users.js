@@ -1,6 +1,6 @@
 import './users.css'
 import React, { useState, useEffect } from "react";
-import getData from "../api/APIsiit";
+import getData, { getUsers } from "../api/APIsiit";
 
 
 function Users() {
@@ -8,8 +8,7 @@ function Users() {
     const [loading, setLoading] = useState(true)
 
     useEffect(async () => {
-        const data = await getData('users.json')
-            .catch(error => alert(error));
+        const data = await getUsers()
         if (data.length > 0) {
             setUserDetails(data)
             setLoading(false)
