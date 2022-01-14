@@ -1,0 +1,52 @@
+/* font size */
+
+.font-size-20 {
+    font-size: 20px;
+}
+
+/* Margin */
+
+.margin-auto {
+    margin: auto;
+}
+
+.mt-8 {
+    margin-top: 8rem;
+}
+
+/* Colors */
+
+.color-y {
+    color: #8E4DEB
+}
+
+/* Table */
+
+table {
+    border: solid 1px gray;
+    border-spacing: 0;
+    width: 90%;
+}
+
+td {
+    padding: 1rem;
+}
+
+tr:nth-child(even) {
+    background-color: gray;
+}
+
+td:hover {
+    transform: scale(1.1, 1.1);
+}
+
+thead {
+    background-color: black;
+    color: white;
+}
+
+/* alignment */
+
+.text-center {
+    text-align: center;
+}
