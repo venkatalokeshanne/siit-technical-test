@@ -1,0 +1,30 @@
+{
+  "name": "siit-frontend-test",
+  "version": "0.0.1",
+  "description": "Siit Frontend Challenge",
+  "repository": "",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "node server/index.js",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@babel/core": "^7.16.7",
+    "@babel/preset-env": "^7.16.8",
+    "@babel/preset-react": "^7.16.7",
+    "@testing-library/react": "^12.1.2",
+    "express": "^4.17.1",
+    "jest": "^27.4.7",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.1",
+    "identity-obj-proxy": "^3.0.0",
+    "parcel-bundler": "^1.12.4"
+  },
+  "browserslist": [
+    "last 2 Chrome versions"
+  ]
+}

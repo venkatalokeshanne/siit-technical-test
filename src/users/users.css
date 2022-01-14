@@ -1,0 +1,36 @@
+.text-center {
+    text-align: center;
+}
+
+.avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}
+
+.margin-auto {
+    margin: auto;
+}
+
+table {
+    border: solid 1px gray;
+    border-spacing: 0;
+    width: 90%;
+}
+
+td {
+    padding: 1rem;
+}
+
+tr:nth-child(even) {
+    background-color: gray;
+}
+
+thead {
+    background-color: black;
+    color: white;
+}
+
+.color-y {
+color: #8E4DEB
+}
